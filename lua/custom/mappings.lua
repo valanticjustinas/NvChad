@@ -1,4 +1,3 @@
----@type MappingsTable
 local M = {}
 
 M.general = {
@@ -10,7 +9,5 @@ M.general = {
     [">"] = { ">gv", "indent"},
   },
 }
-
--- more keybinds!
 
 return M

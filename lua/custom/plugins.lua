@@ -1,4 +1,4 @@
-local overrides = require("custom.configs.overrides")
+local overrides = require "custom.configs.overrides"
 
 ---@type NvPluginSpec[]
 local plugins = {
@@ -25,7 +25,7 @@ local plugins = {
   -- override plugin configs
   {
     "williamboman/mason.nvim",
-    opts = overrides.mason
+    opts = overrides.mason,
   },
 
   {
@@ -44,6 +44,14 @@ local plugins = {
     event = "InsertEnter",
     config = function()
       require("better_escape").setup()
+    end,
+  },
+
+  {
+    "mfussenegger/nvim-dap",
+    init = function()
+      require "custom.configs.dap"
+      require("core.utils").load_mappings "dap"
     end,
   },
 
