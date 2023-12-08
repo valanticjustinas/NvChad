@@ -47,14 +47,6 @@ local plugins = {
     end,
   },
 
-  {
-    "mfussenegger/nvim-dap",
-    init = function()
-      require "custom.configs.dap"
-      require("core.utils").load_mappings "dap"
-    end,
-  },
-
   -- To make a plugin not be loaded
   -- {
   --   "NvChad/nvim-colorizer.lua",
