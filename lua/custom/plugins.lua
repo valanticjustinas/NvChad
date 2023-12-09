@@ -66,8 +66,76 @@ local plugins = {
           require "custom.configs.vscode-js-debug"
         end,
       },
+      {
+        "rcarriga/nvim-dap-ui",
+        keys = {
+          {
+            "<leader>du",
+            function()
+              require("dapui").toggle()
+            end,
+            silent = true,
+          },
+        },
+        opts = {
+          icons = { expanded = "∩â¥", collapsed = "∩âÜ", circular = "∩äÉ" },
+          mappings = {
+            expand = { "<CR>", "<2-LeftMouse>" },
+            open = "o",
+            remove = "d",
+            edit = "e",
+            repl = "r",
+            toggle = "t",
+          },
+          layouts = {
+            {
+              elements = {
+                { id = "repl", size = 0.30 },
+                { id = "console", size = 0.70 },
+              },
+              size = 0.19,
+              position = "bottom",
+            },
+            {
+              elements = {
+                { id = "scopes", size = 0.30 },
+                { id = "breakpoints", size = 0.20 },
+                { id = "stacks", size = 0.10 },
+                { id = "watches", size = 0.30 },
+              },
+              size = 0.20,
+              position = "right",
+            },
+          },
+          floating = {
+            max_height = 0.9,
+            max_width = 0.5,
+            border = vim.g.border_chars,
+            mappings = {
+              close = { "q", "<Esc>" },
+            },
+          },
+        },
+        config = function(_, opts)
+          local dapui = require "dapui"
+          local dap = require "dap"
+
+          require("dapui").setup(opts)
+
+          dap.listeners.after.event_initialized["dapui_config"] = function()
+            dapui.open()
+          end
+          dap.listeners.before.event_terminated["dapui_config"] = function()
+            dapui.close()
+          end
+          dap.listeners.before.event_exited["dapui_config"] = function()
+            dapui.close()
+          end
+        end,
+      },
     },
   },
+
   -- To make a plugin not be loaded
   -- {
   --   "NvChad/nvim-colorizer.lua",
