@@ -5,3 +5,8 @@
 --   pattern = "*",
 --   command = "tabdo wincmd =",
 -- })
+--
+
+vim.wo.number = true
+
+vim.wo.relativenumber = true
