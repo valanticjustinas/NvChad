@@ -1,4 +1,4 @@
-local overrides = require("custom.configs.overrides")
+local overrides = require "custom.configs.overrides"
 
 ---@type NvPluginSpec[]
 local plugins = {
@@ -25,12 +25,20 @@ local plugins = {
   -- override plugin configs
   {
     "williamboman/mason.nvim",
-    opts = overrides.mason
+    opts = overrides.mason,
   },
 
   {
     "nvim-treesitter/nvim-treesitter",
     opts = overrides.treesitter,
+    dependencies = {
+      {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        config = function()
+          require "custom.configs.nvim-treesitter-textobjects"
+        end,
+      },
+    },
   },
 
   {
@@ -46,12 +54,53 @@ local plugins = {
       require("better_escape").setup()
     end,
   },
+  {
+    "mfussenegger/nvim-dap",
+    lazy = false,
+    config = function()
+      require "custom.configs.dap"
+    end,
+    dependencies = {
+      -- Install the vscode-js-debug adapter
+      {
+        "microsoft/vscode-js-debug",
+        build = "npm install --legacy-peer-deps --no-save && npx gulp vsDebugServerBundle && rm -rf out && mv dist out",
+        version = "1.*",
+      },
+      {
+        "mxsdev/nvim-dap-vscode-js",
+        config = function()
+          require "custom.configs.vscode-js-debug"
+        end,
+      },
+      {
+        "rcarriga/nvim-dap-ui",
+        opts = overrides.dap_ui,
+        config = function(_, opts)
+          local dapui = require "dapui"
+          local dap = require "dap"
+
+          require("dapui").setup(opts)
+
+          dap.listeners.after.event_initialized["dapui_config"] = function()
+            dapui.open()
+          end
+          dap.listeners.before.event_terminated["dapui_config"] = function()
+            dapui.close()
+          end
+          dap.listeners.before.event_exited["dapui_config"] = function()
+            dapui.close()
+          end
+        end,
+      },
+    },
+  },
 
   -- To make a plugin not be loaded
   -- {
   --   "NvChad/nvim-colorizer.lua",
   --   enabled = false
-  -- },
+  -- ,
 
   -- All NvChad plugins are lazy-loaded by default
   -- For a plugin to be loaded, you will need to set either `ft`, `cmd`, `keys`, `event`, or set `lazy = false`
