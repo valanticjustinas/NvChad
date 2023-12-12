@@ -10,6 +10,8 @@ local js_based_languages = {
 
 vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
 
+print(vim.fn.resolve(vim.fn.stdpath "data" .. "/lazy/vscode-js-debug"))
+
 for _, language in ipairs(js_based_languages) do
   dap.configurations[language] = {
     -- Debug single nodejs files
@@ -20,6 +22,13 @@ for _, language in ipairs(js_based_languages) do
       program = "${file}",
       cwd = vim.fn.getcwd(),
       sourceMaps = true,
+    },
+    {
+      type = "pwa-node",
+      name = "Docker",
+      request = "attach",
+      host = "0.0.0.0",
+      port = "9229",
     },
     -- Debug nodejs processes (make sure to add --inspect when you run the process)
     {

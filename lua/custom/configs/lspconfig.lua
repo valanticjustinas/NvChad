@@ -13,5 +13,18 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+lspconfig["jsonls"].setup {
+  on_attach = on_attach,
+  settings = {
+    json = {
+      schemas = {
+        {
+          fileMatch = { 'package.json' },
+          url = 'https://json.schemastore.org/package.json',
+        },
+      },
+    },
+  },
+}
 -- 
 -- lspconfig.pyright.setup { blabla}

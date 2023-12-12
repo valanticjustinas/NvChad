@@ -4,6 +4,9 @@ function main() {
     if (i === "a") {
       console.log("foldytest");
     }
+    if(i === "b"){
+      console.log("lon")
+    }
   }
 }
 

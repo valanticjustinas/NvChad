@@ -35,10 +35,10 @@ local plugins = {
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
         config = function()
-          require("custom.configs.nvim-treesitter-textobjects")
-        end
-      }
-    }
+          require "custom.configs.nvim-treesitter-textobjects"
+        end,
+      },
+    },
   },
 
   {
@@ -54,7 +54,6 @@ local plugins = {
       require("better_escape").setup()
     end,
   },
-
   {
     "mfussenegger/nvim-dap",
     lazy = false,
